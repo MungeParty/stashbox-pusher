@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.18.1",
+    "ably": "^1.2.22",
+    "next": "latest",
+    "next-useragent": "^2.8.0",
+    "openai": "^3.1.0",
+    "pusher": "^5.1.2",
+    "pusher-js": "^7.6.0",
+    "react": "18.1.0",
+    "react-cookie": "^4.1.1",
+    "react-dom": "18.1.0",
+    "react-toastify": "^9.1.1",
+    "swr": "^2.0.0",
+    "tracery-grammar": "^2.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.0.12",
+    "eslint": "^8.30.0",
+    "eslint-config-next": "12.1.6",
+    "typescript": "^4.7.3"
+  }
+}
