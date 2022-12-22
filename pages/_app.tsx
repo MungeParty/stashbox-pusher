@@ -1,8 +1,7 @@
-import '../styles/globals.css'
-import 'react-toastify/dist/ReactToastify.css'
+import '../styles/main.css'
 
+import Head from 'next/head'
 import { SWRConfig } from 'swr'
-import { ToastContainer } from 'react-toastify'
 import StateProvider from '@/store/index'
 import { RouteProvider } from '@/store/pusher'
 
@@ -11,27 +10,24 @@ export default function MyApp({
   pageProps
 }) {
   return (
-    <SWRConfig
-      value={{
-        revalidateOnFocus: false,
-        fetcher: (resource, init) =>
+    <div>
+      <Head>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
+      </Head>
+      <SWRConfig
+        value={{
+          revalidateOnFocus: false,
+          fetcher: (resource, init) =>
           fetch(resource, init).then((res) => res.json())
-      }}
-    >
-      <RouteProvider>
-        <StateProvider>
-          <Component {...pageProps} />
-          <ToastContainer
-            autoClose={5000}
-            hideProgressBar={false}
-            draggable={false}
-            pauseOnHover={false}
-            position="bottom-center"
-            enableMultiContainer={true}
-            limit={10}
-          />
-        </StateProvider>
-      </RouteProvider>
-    </SWRConfig>
+        }}
+        >
+        <RouteProvider>
+          <StateProvider>
+            <Component {...pageProps} />
+          </StateProvider>
+        </RouteProvider>
+      </SWRConfig>
+    </div>
   )
 }

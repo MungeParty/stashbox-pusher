@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getRooms } from '@/lib/records'
+import { getRooms } from '@/lib/stashbox/presence'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const rooms = await getRooms()

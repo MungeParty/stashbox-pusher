@@ -1,7 +1,6 @@
 import type { Connection, Player, RoomData } from 'types/types'
 import { createContext, useEffect, useState, useContext } from 'react'
 import Pusher from 'pusher-js'
-import { toast } from 'react-toastify'
 import { Defaults, UserMode, PusherChannel } from './constants'
 import { useRouter } from 'next/router'
 
@@ -70,36 +69,6 @@ function createPusherClient() {
   return new Pusher(app_key, client_config)
 }
 
-// map data value to toast body
-const toastValue = (value: any) => {
-  if (typeof value === 'string') {
-    value = <i>{value}</i>
-  } else if (Array.isArray(value)) {
-    value = value.map((item, index) => (
-      <div key={index}>{toastValue(item)}</div>
-    ))
-  } else if (typeof value === 'object') {
-    value = toastBody(value)
-  }
-  return value;
-}
-
-// map data object to toast body
-const toastBody = (data: any) => {
-  return Object.entries(data)
-    .map(([key, value]) =>
-      <div key={key}><><b>{key}:</b>{toastValue(value)}</></div>
-    )
-}
-
-// helper for toast messages related to channel events
-const channelToast = (channel: string, event: string, data: any) => (
-  <div>
-    <div><b>{PusherChannel.shortened(channel)}: {event.toUpperCase()}</b></div>
-    {toastBody(data)}
-  </div>
-)
-
 // connects to pusher channel and returns the channel and
 // stateful members, messages, and update values
 function useChannel(pusher: Pusher, channelName: string) {
@@ -124,24 +93,21 @@ function useChannel(pusher: Pusher, channelName: string) {
           setMembers(arr)
           setMessages([])
           connectionData(members.me.info)
-          toast.success(channelToast(channelName, 'connected', members.me.info))
         })
         connection.bind('pusher:subscription_error', (status: any) => {
-          toast.error(channelToast(channelName, 'subscription_error', status))
+          console.log('subscription_error', status)
         })
         // member events
         connection.bind('pusher:member_added', (member: any) => {
           setMembers((members: any[]) => ([...members, member]))
-          toast.info(channelToast(channelName, 'member_added', member))
         })
         connection.bind('pusher:member_removed', (member: any) => {
           setMembers(members => members.filter((m: any) => m.id !== member.id))
-          toast.warn(channelToast(channelName, 'member_removed', member))
         })
         // message events
         connection.bind('message', (data: any) => {
+          console.log('message', data)
           setMessages((messages: any[]) => [...messages, data])
-          toast.info(channelToast(channelName, 'message', data))
         })
         connection.bind('client-message', (data: any) => {
           // mark client messages with clientMessage flag
@@ -149,7 +115,6 @@ function useChannel(pusher: Pusher, channelName: string) {
             ...data,
             clientMessage: true
           }])
-          toast.info(channelToast(channelName, 'client-message', data))
         })
         // status events
         connection.bind('update', (data: any) => {

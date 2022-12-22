@@ -1,42 +1,57 @@
-import styles from 'styles/Home.module.css'
+import { useMemo } from 'react'
 import { withRouteParams, withRoomChannel } from '@/store/pusher'
-import { useCallback } from 'react';
+import ChatMessageContainer from './chat-message-list';
 
-function sendClientMessage(user, channel) {
-    if (!channel) return
-    const message = {
-        text: `${user || '[unknown]'} sent a message`,
+const PlayerList = ({ playerList }) => (<>
+  {(playerList || []).filter(({ids}) => ids.length).map(({ name, id, ids }) => (
+      <p className='player' key={id}>{name} <span className='subtext'>{`${ids.length}`}</span></p>
+  ))}
+  {(playerList || []).filter(({ids}) => !ids.length).map(({ name, id, ids }) => (
+      <p className='player offline' key={id}>{name} <span className='subtext'>{`${ids.length}`}</span></p>
+  ))}
+</>)
+
+const ViewerList = ({ viewerList }) => (
+  <div className='viewers hilite' key={'viewers'}>
+    Viewers: {viewerList.length}
+  </div>
+)
+
+const UserList = ({ roomChannel }) => {
+  const { update } = roomChannel; 
+  const { connections, viewers = [], users, players = [] } = ( update ) ?? {} as any;
+  const { playerList, viewerList } = useMemo(() => {
+    return {
+      playerList: players.map((player) => ({...users[player]})),
+      viewerList: viewers.map((viewer) => ({...connections[viewer]}))
     }
-    channel.trigger('client-message', message)
+  }, [connections, viewers, users, players])
+  return (
+    <div className='user-list hilite'>
+      <>
+        <PlayerList playerList={playerList} />
+        <ViewerList viewerList={viewerList} />
+      </>
+    </div>
+  )
 }
 
-function RoomChannel({ user, roomChannel }) {
-    // get room channel from connection
-    // message click handler
-    const messageClick = useCallback(() =>
-        sendClientMessage(user, roomChannel.channel),
-        [user, roomChannel.channel])
-    // members list
-    const { members: presenceData, messages, update } = roomChannel;
-    const messageList = (messages || []).map((message, index) => {
-        return <li key={index}>{message.text}</li>
-    })
-    // pressence list
-    const presentClients = (presenceData || []).map(({ id, info }, index) => (
-        <li key={id}>{id}: {info?.user ?? (`[${info.type}]`)}</li>
-    ))
-    // render
-    return (
-        <main className={styles.main}>
-            <ul>{presentClients}</ul>
-            <div>
-                <button className={styles.button} onClick={messageClick}>
-                    Send A Message
-                </button>
-            </div>
-            <ul>{messageList}</ul>
-        </main>
-    )
+function RoomChannel({ roomChannel }) {// members list
+	const { update } = roomChannel;
+	const { messages = [] } = update || {};
+
+	return (
+		<div className='vbox flex'>
+			<div className='hbox flex'>
+        <div className='vbox flex'>
+        </div>
+        <div className='vbox sidebar shade'>
+          <UserList roomChannel={roomChannel} />
+          <ChatMessageContainer messages={messages} />
+        </div>
+      </div>
+		</div>
+	)
 }
 
 export default withRouteParams(withRoomChannel(RoomChannel))

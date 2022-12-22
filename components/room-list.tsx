@@ -1,20 +1,13 @@
-import type { Connection, Player } from 'types/types'
+import { type RoomListData } from 'types/types'
 import { useMemo } from 'react'
 import Link from 'next/link'
 import { withRooms } from '@/store/index'
-
-interface RoomListData {
-  code: string,
-  viewers: Connection[],
-  users: Player[]
-}
 
 function RoomList({ rooms }) {
   const { error, data } = useMemo(() => ({
     error: rooms.error,
     data: rooms.data as RoomListData[]
   }), [rooms])
-
   if (!data) {
     return <div>Loading...</div>
   }

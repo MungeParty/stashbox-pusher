@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import pusher from '@/lib/pusher'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-	const { socket_id, ...user_info } = req?.body ?? {}
+	const { socket_id, ...user_info } = req.body
 	const authResponse = pusher.authenticateUser(
 		socket_id,
 		{

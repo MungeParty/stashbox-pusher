@@ -123,6 +123,8 @@ const DefaultRoomData: RoomData = {
 	config: {
 		rounds: [],
 	},
+  events: [],
+  messages: [],
 	connections: {},
 	viewers: [],
 	users: {},

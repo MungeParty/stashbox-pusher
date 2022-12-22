@@ -1,37 +1,26 @@
 import { Connection, Player } from 'types/types'
 import { Defaults, PusherChannel } from '@/store/constants'
-import pusher from '@/lib/pusher'
+import pusher, { getChannelCache, getChannelUsers } from '../pusher'
+import { parse } from 'next-useragent'
 
-// returns the cached data on a given channel,
-// or null if no cache is set
-const cacheParams = { info: 'cache' }
-async function getChannelCache(channel)
-{
-	const response = await pusher.get({
-		path: `/channels/${channel}`,
-		params: cacheParams
-	})
-	const { cache } = await response.json()
-	if (!cache) return null;
-	const { data } = cache
-	if (typeof data == 'string')
-		return JSON.parse(data)
-	return data
-}
-
-// get the users in a given channel
-async function getChannelUsers(channel)
-{
-	const response = await pusher.get({
-		path: `/channels/${channel}/users`,
-	})
-	const users = await response.json()
-	return users
+// get memory-cached socket type name from ua string
+const types = {}
+export function getSocketType(uaString) {
+  if (uaString in types) {
+    return types[uaString]
+  }
+  if (uaString.length == 0)
+    types[uaString] = 'unknown'
+  else{
+    const ua = parse(uaString)
+    types[uaString] = ua.os.split(' ')[0] ?? ua.browser
+  }
+    return types[uaString]
 }
 
 // take presence update from user and update their connection
 // data in the presence dataset
-export async function updatePresence(
+export async function updateUserPresence(
 	channel_name: string,
 	presence: any
 ) {
@@ -56,19 +45,15 @@ async function updateRoomPresence(
 	channel_name: string,
 	presence:any
 ) {
-	const {
-		user_id,
-		user_info
-	} = presence
-  const {
-    user: name,
-    room: roomCode
-  } = user_info
+  // get user id, channel name, and user info from request body
+	const { user_id, user_info } = presence
+  const { user: name, room: roomCode } = user_info
 	// get channel cache and users
-	const [ response, channelIds ] = await Promise.all([
+	const [ channelData, channelIds ] = await Promise.all([
 		getChannelCache(channel_name),
 		getUsers(roomCode)
 	])
+  // create a map of connected ids
   const connected:Object = channelIds
     ?.reduce((acc, id) => ({
       ...acc,
@@ -77,15 +62,13 @@ async function updateRoomPresence(
 	// merge room data with cache
 	let update = {
 		...Defaults.RoomData,
-		...(response ?? {}),
+		...(channelData ?? {}),
 		code: roomCode,
 		modified: Date.now()
 	}
-	// prune offline ids from room data
+	// merge new data and remove disconnected users
 	update = {
 		...update,
-		// remove connections that are not in the channel
-    // add this connection to the data set
 		connections: {
       ...(Object.values(update.connections)
         .reduce((acc, c: Connection) => {

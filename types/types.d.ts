@@ -92,6 +92,15 @@ export interface RoomConfiguration {
 	rounds: RoundConfiguration[];
 }
 
+export interface ChatMessaage {
+  // message
+  message: string;
+  // sender
+  name: string;
+  // timestamp
+  time: number;
+}
+
 // room state tracks the overall state
 // of the game room, including the current
 // phase, active players, and current round.
@@ -100,7 +109,11 @@ export interface RoomData {
 	code: string;
 	// configuration for this room
 	config: RoomConfiguration;
-	// lookup of all device connections
+  // array of game event messages
+	events: ChatMessage[];
+  // array of chat messages
+	messages: ChatMessage[];
+  // lookup of all device connections
 	connections: Dictionary<Connection>,
 	// list of viewer connection ids
 	viewers: string[]
@@ -125,4 +138,11 @@ export interface RoomData {
 	prompts: RoomPrompt[];
 	// flat array of all responses
 	responses: PlayerResponse[];
+}
+
+// room list data
+export interface RoomListData {
+  code: string,
+  viewers: Connection[],
+  users: Player[]
 }
