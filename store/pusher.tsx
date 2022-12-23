@@ -234,7 +234,7 @@ export const withRoomChannel = Component => props => {
     messages,
     update
   } } = useContext(RoomContext)
-  console.log('withRoomChannel', channel, members, messages, update)
+  console.log('withRoomChannel', messages?.slice(-1)?.[0]?.message)
   return (<Component {...props} roomChannel={{
     channel,
     members,

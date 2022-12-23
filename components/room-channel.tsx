@@ -1,6 +1,26 @@
 import { useMemo } from 'react'
 import { withRouteParams, withRoomChannel } from '@/store/pusher'
-import ChatMessageContainer from './chat-message-list';
+import ChatMessageContainer from './chat';
+
+async function sendMessage(name, channel, message) {
+  console.log('sendClientMessage', name, channel, message)
+  const resp = await fetch('/api/chat', {
+		method: 'POST',
+		headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache, no-store, max-age=0, must-revalidate'
+    },
+		cache: 'no-cache',
+    next: { revalidate: 0 },
+    body: JSON.stringify({ 
+			channel_name: channel,
+			name,
+			message
+		})
+	})
+  const data = await resp.json();
+  console.log('sentClientMessage', name, channel, data)
+}
 
 const PlayerList = ({ playerList }) => (<>
   {(playerList || []).filter(({ids}) => ids.length).map(({ name, id, ids }) => (
@@ -51,7 +71,7 @@ function RoomChannel({ roomChannel }) {// members list
         </div>
         <div className='vbox sidebar shade'>
           <UserList roomChannel={roomChannel} />
-          <ChatMessageContainer messages={messages} />
+          <ChatMessageContainer messages={messages} sendMessage={sendMessage} />
         </div>
       </div>
 		</div>

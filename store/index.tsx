@@ -17,7 +17,6 @@ export default function StateProvider({ children }) {
 
 export const withRooms = (Component) => (props) => {
   const rooms = useContext(StateContext);
-  console.log('value context' ,rooms)
   return (
     <Component {...props} rooms={rooms} />
   )

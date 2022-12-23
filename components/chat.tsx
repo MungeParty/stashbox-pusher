@@ -2,26 +2,7 @@ import { useRef, useCallback, useEffect } from 'react';
 import { connectionData } from '@/store/pusher'
 import { PusherChannel } from '@/store/constants'
 
-async function sendClientMessage(name, channel, message) {
-  console.log('sendClientMessage', name, channel, message)
-  const resp = await fetch('/api/chat', {
-		method: 'POST',
-		headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache, no-store, max-age=0, must-revalidate'
-    },
-		cache: 'no-cache',
-    next: { revalidate: 0 },
-    body: JSON.stringify({ 
-			channel_name: channel,
-			name,
-			message
-		})
-	})
-  console.log('sentClientMessage', name, channel, resp)
-}
-
-export default function ChatMessageList({ messages }) {
+export default function ChatMessageView({ messages, sendMessage }) {
   // container ref
   const containerRef = useRef(null);
 	// message ref
@@ -35,8 +16,8 @@ export default function ChatMessageList({ messages }) {
     const { user, type, room } = connectionData();
     const name = user ?? `[${type}]`;
     const channel = PusherChannel.room(room);
-    sendClientMessage(name, channel, message);
-  },	[messageRef])
+    sendMessage(name, channel, message);
+  },	[messageRef, sendMessage])
   
   // handle enter press with click handler
   const handleEnter = useCallback((e) => {

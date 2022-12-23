@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       time: Date.now(),
     })
     noCache(res).status(200).json(result)
-    console.log('chat message sent', result)
+    console.log('chat message sent', filteredMessage)
     return;
   }
   console.log('chat message not sent')
