@@ -4,12 +4,13 @@ import { handleChatMessage } from '@/lib/stashbox/messages'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { channel_name, message, name } = req.body as any
   let filteredMessage = message.trim();
-  if (filteredMessage.length > 1) {
-    await handleChatMessage(channel_name, {
+  if (filteredMessage.length > 0) {
+    const result = await handleChatMessage(channel_name, {
       name,
       message: filteredMessage,
       time: Date.now(),
     })
+    res.status(200).json(result)
   }
-  res.status(200).json({ status: 'ok' })
+  res.status(200).json({})
 }

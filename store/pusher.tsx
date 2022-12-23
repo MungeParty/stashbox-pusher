@@ -54,12 +54,12 @@ const client_config: any = {
   forceTLS: true,
   userAuthentication: {
     endpoint: '/api/pusher/auth-user',
-    transport: 'ajax',
+    // transport: 'ajax',
     paramsProvider: connectionData
   },
   channelAuthorization: {
     endpoint: '/api/pusher/auth-channel',
-    transport: 'ajax',
+    // transport: 'ajax',
     paramsProvider: connectionData
   }
 }
