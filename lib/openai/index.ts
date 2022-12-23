@@ -37,7 +37,7 @@ export const ChatbotPayload = {
   // to pick results from
   best_of: 4,
   // return size (token is 3-4 characters
-  max_tokens: 20,
+  max_tokens: 100,
   // temp: 0.0 to 1.0
   // higher is more creative
   temperature: 1,

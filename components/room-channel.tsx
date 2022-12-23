@@ -20,13 +20,14 @@ async function sendClientMessage(name, channel, message) {
     })
   })
   // query host
-  const hostResp = await fetch('/api/chat/host', {
+  // const hostResp = 
+  await fetch('/api/chat/host', {
     ...chatFetchConfig,
     body: JSON.stringify({ channel_name: channel })
   })
   // only query bot if host STFU
-  const hostRespJson = await hostResp.json();
-  if (hostRespJson) return;
+  // const hostRespJson = await hostResp.json();
+  // if (hostRespJson) return;
   // query bot for a response
   await fetch('/api/chat/bot', {
     ...chatFetchConfig,

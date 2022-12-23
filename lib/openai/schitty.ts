@@ -16,6 +16,12 @@ export default {
     }, {
       name: 'Schitty',
       message: `Everyone start warming up your funny helmets, we'll starta as soon as everyone is ready...`,
+    }, {
+      name: 'Schitty',
+      message: `Viewers can add their name to the URL to join as a user.`,
+    }, {
+      name: 'Schitty',
+      message: `Let me know when everyone's ready!`,
     }
   ]
 }
