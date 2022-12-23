@@ -3,19 +3,17 @@ import { withRoomChannel } from '@/store/pusher'
 import ChatMessageContainer from './chat';
 
 async function sendClientMessage(name, channel, message) {
-  const resp = await fetch('/api/chat', {
-		method: 'POST',
-		headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache, no-store, max-age=0, must-revalidate'
-    },
-		cache: 'no-cache',
-    next: { revalidate: 0 },
-    body: JSON.stringify({ 
-			channel_name: channel,
+  // convert params to url string
+  const urlParams = new URLSearchParams({
+    channel_name: channel,
 			name,
 			message
-		})
+  });
+  console.log('url params: ', urlParams.toString());
+  const resp = await fetch('/api/chat?' + urlParams.toString(), {
+		method: 'GET',
+		cache: 'no-cache',
+    next: { revalidate: 0 }
 	})
   const data = await resp.json();
   return data;

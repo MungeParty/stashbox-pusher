@@ -4,14 +4,13 @@ import { noCache } from '@/lib/stashbox/headers'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { channel_name, message, name } = req.query as any
-  let filteredMessage = message.trim();
+  let filteredMessage = message?.trim() || '';
   if (filteredMessage.length > 0) {
     const result = await handleChatMessage(channel_name, {
       name,
       message: filteredMessage,
       time: Date.now(),
     })
-    res.revalidate(`/api/chat`),
     noCache(res).status(200).json(result)
     return;
   }
