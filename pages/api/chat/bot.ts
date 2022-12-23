@@ -8,12 +8,15 @@ import { noCache } from '@/lib/stashbox/headers'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { channel_name } = req.body as any
   let roomData = await getChannelCache(channel_name);
-  const message = await completeMessages(roomData.messages, personality)
-  const { name } = personality
-  roomData = await handleChatMessage(roomData, {
-    name,
-    message,
-    time: Date.now()
-  })
+  let message = await completeMessages(roomData.messages, personality)
+  message = message?.trim() || '';
+  if (message.length > 0) {
+    const { name } = personality
+    roomData = await handleChatMessage(roomData, {
+      name,
+      message,
+      time: Date.now()
+    })
+  }
   noCache(res).status(200).json(roomData)
 }
