@@ -3,6 +3,7 @@ import { connectionData } from '@/store/pusher'
 import { PusherChannel } from '@/store/constants'
 
 function sendClientMessage(name, channel, message) {
+  console.log('sendClientMessage', name, channel, message)
   fetch('/api/chat', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json',},
@@ -11,7 +12,9 @@ function sendClientMessage(name, channel, message) {
 			name,
 			message
 		})
-	})
+	}).then(resp => {
+    console.log('sentClientMessage', name, channel, resp)
+  })
 }
 
 export default function ChatMessageList({ messages }) {

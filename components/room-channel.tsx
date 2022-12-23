@@ -4,10 +4,14 @@ import ChatMessageContainer from './chat-message-list';
 
 const PlayerList = ({ playerList }) => (<>
   {(playerList || []).filter(({ids}) => ids.length).map(({ name, id, ids }) => (
-      <p className='player' key={id}>{name} <span className='subtext'>{`${ids.length}`}</span></p>
+      <p className='player' key={`player-${name}`}>
+        {name} <span className='subtext'>{`${ids.length}`}</span>
+      </p>
   ))}
   {(playerList || []).filter(({ids}) => !ids.length).map(({ name, id, ids }) => (
-      <p className='player offline' key={id}>{name} <span className='subtext'>{`${ids.length}`}</span></p>
+      <p className='player offline' key={`player-${name}`}>
+        {name} <span className='subtext'>{`${ids.length}`}</span>
+      </p>
   ))}
 </>)
 

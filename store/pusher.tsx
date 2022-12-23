@@ -48,18 +48,18 @@ export const roomData = (data: any = null) => localData('room', data)
 export const playerData = (data: any = null) => localData('player', data)
 
 // pusher client configuration
-const app_key = "c654692d1720b633b2a9"
+const app_key = 'c654692d1720b633b2a9'
 const client_config: any = {
-  cluster: "us3",
+  cluster: 'us3',
   forceTLS: true,
   userAuthentication: {
-    endpoint: "/api/pusher/auth-user",
-    transport: "ajax",
+    endpoint: '/api/pusher/auth-user',
+    transport: 'ajax',
     paramsProvider: connectionData
   },
   channelAuthorization: {
-    endpoint: "/api/pusher/auth-channel",
-    transport: "ajax",
+    endpoint: '/api/pusher/auth-channel',
+    transport: 'ajax',
     paramsProvider: connectionData
   }
 }
