@@ -1,8 +1,7 @@
 import { useRef, useCallback, useEffect } from 'react';
-import { connectionData } from '@/store/pusher'
 import { PusherChannel } from '@/store/constants'
 
-export default function ChatMessageView({ messages, sendMessage }) {
+export default function ChatMessageView({ room, user, messages, sendMessage }) {
   // container ref
   const containerRef = useRef(null);
 	// message ref
@@ -13,8 +12,8 @@ export default function ChatMessageView({ messages, sendMessage }) {
     const message = messageRef.current.value;
     messageRef.current.value = '';
     if (message.legth == 0) return;
-    const { user, type, room } = connectionData();
-    const name = user ?? `[${type}]`;
+    // const { user, type, room } = connectionData();
+    const name = user ?? `[VIEWER]`;
     const channel = PusherChannel.room(room);
     sendMessage(name, channel, message);
   },	[messageRef, sendMessage])

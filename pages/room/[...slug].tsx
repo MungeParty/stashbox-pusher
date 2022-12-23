@@ -3,8 +3,14 @@ import Container from '@/components/container';
 import RoomChannel from '@/components/room-channel';
 import Loading from '@/components/loading';
 
-export default function Room() {
-  const { room, user } = connectionData()
+export async function getServerSideProps({ query, res }) {
+  if (res) res.setHeader('Cache-Control', 'no-store');
+  return { props: { query } }
+}
+
+export default function Room(props) {
+  const { query } = props;
+  const { slug: [room, user] } = query;
   return (
     <Container title={!room
       ? 'Loading...'
@@ -12,7 +18,7 @@ export default function Room() {
       {!room
         ? <Loading />
         : (
-          <RoomProvider>
+          <RoomProvider room={room} user={user}>
             <RoomChannel room={room} user={user} />
           </RoomProvider>
         )}

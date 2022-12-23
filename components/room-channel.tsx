@@ -1,10 +1,8 @@
 import { useMemo, useCallback } from 'react'
-import { withRouteParams, withRoomChannel } from '@/store/pusher'
-import useSWR from 'swr'
+import { withRoomChannel } from '@/store/pusher'
 import ChatMessageContainer from './chat';
 
 async function sendClientMessage(name, channel, message) {
-  console.log('sendClientMessage', name, channel, message)
   const resp = await fetch('/api/chat', {
 		method: 'POST',
 		headers: {
@@ -20,7 +18,6 @@ async function sendClientMessage(name, channel, message) {
 		})
 	})
   const data = await resp.json();
-  // console.log('sentClientMessage', name, channel, data)
   return data;
 }
 
@@ -61,46 +58,25 @@ const UserList = ({ update }) => {
   )
 }
 
-function RoomChannel({ roomChannel }) {
-	const { channel } = roomChannel;
-	const { name: channelName } = channel || {};
-
-  // const { mutate } = rooms
-  const { data, mutate } = useSWR(
-    channelName && `/api/rooms/status?channel_name=${channelName}`, {
-    fallbackData: {},
-    revalidateOnFocus: true,
-    revalidateOnReconnect: true,
-    refreshWhenHidden: true,
-    refreshWhenOffline: true,
-    shouldRetryOnError: true,
-    errorRetryInterval: 500,
-    errorRetryCount: 3,
-    dedupingInterval: 0,
-    focusThrottleInterval: 500,
-    loadingTimeout: 500
-  });
-
+function RoomChannel({ room, user, roomChannel }) {
+	const { update } = roomChannel;
   const sendMessage = async (name, channel, message) => {
     if (!message) return;
-    const update = await sendClientMessage(name, channel, message)
-    mutate(update, { revalidate: true })
+    await sendClientMessage(name, channel, message)
   }
-  console.log('RoomChannel', data)
-	const { messages = [] } = data || {} as any;
-  
+	const { messages = [] } = update || {} as any;
   return (
 		<div className='vbox flex'>
 			<div className='hbox flex'>
         <div className='vbox flex'>
         </div>
         <div className='vbox sidebar shade'>
-          <UserList update={data} />
-          <ChatMessageContainer messages={messages} sendMessage={sendMessage} />
+          <UserList update={update} />
+          <ChatMessageContainer room={room} user={user} messages={messages} sendMessage={sendMessage} />
         </div>
       </div>
 		</div>
 	)
 }
 
-export default withRouteParams(withRoomChannel(RoomChannel))
+export default withRoomChannel(RoomChannel)

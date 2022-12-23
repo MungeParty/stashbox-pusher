@@ -153,11 +153,9 @@ function useChannel(pusher: Pusher, channelName: string) {
   }
 }
 
-const useRoomConnection = () => {
+const useRoomConnection = (room, user) => {
   // get router
   const router = useRouter()
-  // get local room and user
-  const { room, user } = connectionData()
   // pusher client state
   const [pusher, setPusherClient] = useState<Pusher>(undefined)
   // connection effect
@@ -212,8 +210,8 @@ export const RouteProvider = ({ children }) => {
 
 // room context and provider
 const RoomContext = createContext({ roomChannel: null, userChannel: null })
-export const RoomProvider = ({ children }) => {
-  const { roomChannel, userChannel } = useRoomConnection()
+export const RoomProvider = ({ room, user, children }) => {
+  const { roomChannel, userChannel } = useRoomConnection(room, user)
   return (
     <RoomContext.Provider value={{ roomChannel, userChannel }}>
       {children}
@@ -235,7 +233,6 @@ export const withRoomChannel = Component => props => {
     messages,
     update
   } } = useContext(RoomContext)
-  console.log('withRoomChannel', messages?.slice(-1)?.[0]?.message)
   return (<Component {...props} roomChannel={{
     channel,
     members,
