@@ -2,11 +2,14 @@ import { useRef, useCallback, useEffect } from 'react';
 import { connectionData } from '@/store/pusher'
 import { PusherChannel } from '@/store/constants'
 
-function sendClientMessage(name, channel, message) {
+async function sendClientMessage(name, channel, message) {
   console.log('sendClientMessage', name, channel, message)
-  fetch('/api/chat', {
+  const resp = await fetch('/api/chat', {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json',},
+		headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache, no-store, max-age=0, must-revalidate'
+    },
 		cache: 'no-cache',
     next: { revalidate: 0 },
     body: JSON.stringify({ 
@@ -14,9 +17,8 @@ function sendClientMessage(name, channel, message) {
 			name,
 			message
 		})
-	}).then(resp => {
-    console.log('sentClientMessage', name, channel, resp)
-  })
+	})
+  console.log('sentClientMessage', name, channel, resp)
 }
 
 export default function ChatMessageList({ messages }) {
