@@ -85,7 +85,7 @@ function RoomChannel({ roomChannel }) {
   const sendMessage = async (name, channel, message) => {
     if (!message) return;
     const update = await sendClientMessage(name, channel, message)
-    mutate(data, { revalidate: true })
+    mutate(update, { revalidate: true })
   }
   console.log('RoomChannel', data)
 	const { messages = [] } = data || {} as any;
