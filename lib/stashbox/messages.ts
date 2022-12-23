@@ -14,7 +14,7 @@ export async function handleChatMessage(channel_name, data) {
     modified: Date.now(),
   };
   // update room data
-  pusher.trigger(channel_name, 'update', update);
+  await pusher.trigger(channel_name, 'update', update);
   // return updated room cache
   return update;
 }

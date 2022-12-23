@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { handleChatMessage } from '@/lib/stashbox/messages'
-import { noCache } from '@/lib/stashbox/headers'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { channel_name, message, name } = req.query as any
@@ -11,8 +10,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       message: filteredMessage,
       time: Date.now(),
     })
-    noCache(res).status(200).json(result)
+    res.status(200).json(result)
     return;
   }
-  noCache(res).status(200).json({})
+  res.status(200).json({})
 }
