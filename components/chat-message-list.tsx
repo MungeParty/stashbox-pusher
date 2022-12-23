@@ -49,7 +49,7 @@ export default function ChatMessageList({ messages }) {
   useEffect(() => {
     const container = containerRef.current;
     container.scrollTop = container.scrollHeight;
-  }, [messages]);
+  }, [messages.length]);
 
   // respond to window height changes
   useEffect(() => {
