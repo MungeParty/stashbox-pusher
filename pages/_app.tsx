@@ -16,7 +16,12 @@ export default function MyApp({
       </Head>
       <SWRConfig
         value={{
+          revalidateIfStale: true,
           revalidateOnFocus: true,
+          revalidateOnMount: true,
+          revalidateOnReconnect: true,
+          shouldRetryOnError: true,
+          dedupingInterval: 500,
           fetcher: (resource, init) =>
             fetch(resource, init).then((res) => res.json())
         }}
