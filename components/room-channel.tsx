@@ -3,24 +3,27 @@ import { withRoomChannel } from '@/store/pusher'
 import ChatMessageContainer from './chat';
 
 async function sendClientMessage(name, channel, message) {
+  console.log('sendClientMessage', name, channel, message);
   const chatResult = 
     await fetch('/api/chat', {
-      method: 'PUT',
+      method: 'POST',
       cache: 'no-cache',
       next: { revalidate: 0 }, 
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        name,
         channel_name: channel,
-          name,
-          message
+        message
       })
     })
   const chatData = await chatResult.json();
   console.log('chatData', chatData.messages);
   const botResult = 
     await fetch('/api/chat/bot', {
-      method: 'PUT',
+      method: 'POST',
       cache: 'no-cache',
       next: { revalidate: 0 }, 
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         channel_name: channel
       })
