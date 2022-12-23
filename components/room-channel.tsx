@@ -76,10 +76,9 @@ function RoomChannel({ roomChannel }) {
     shouldRetryOnError: true,
     errorRetryInterval: 500,
     errorRetryCount: 3,
-    dedupingInterval: 100,
-    focusThrottleInterval: 100,
-    loadingTimeout: 100,
-    refreshInterval: 100,
+    dedupingInterval: 0,
+    focusThrottleInterval: 500,
+    loadingTimeout: 500
   });
 
   const sendMessage = async (name, channel, message) => {
