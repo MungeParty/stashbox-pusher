@@ -12,7 +12,7 @@ function RoomList({ rooms }) {
     return <div>Loading...</div>
   }
   if (error) {
-    return <div>Error: {JSON.stringify(error)}, reloading the page...</div>
+    return <div>Error: {JSON.stringify(error)}, reload the page...</div>
   }
   return (
     <div>

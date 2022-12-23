@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react'
 import { withRouteParams, withRoomChannel } from '@/store/pusher'
-import { withRooms } from '@/store/index'
+import useSWR from 'swr'
 import ChatMessageContainer from './chat';
 
 async function sendClientMessage(name, channel, message) {
@@ -20,7 +20,7 @@ async function sendClientMessage(name, channel, message) {
 		})
 	})
   const data = await resp.json();
-  console.log('sentClientMessage', name, channel, data)
+  // console.log('sentClientMessage', name, channel, data)
   return data;
 }
 
@@ -43,15 +43,14 @@ const ViewerList = ({ viewerList }) => (
   </div>
 )
 
-const UserList = ({ roomChannel, mutate }) => {
-  const { update } = roomChannel; 
+const UserList = ({ update }) => {
   const { modified, connections, viewers = [], users, players = [] } = ( update ) ?? {} as any;
   const { playerList, viewerList } = useMemo(() => {
     return {
       playerList: players.map((player) => ({...users[player]})),
       viewerList: viewers.map((viewer) => ({...connections[viewer]}))
     }
-  }, [mutate, modified, connections, viewers, users, players])
+  }, [modified, connections, viewers, users, players])
   return (
     <div className='user-list hilite'>
       <>
@@ -62,24 +61,42 @@ const UserList = ({ roomChannel, mutate }) => {
   )
 }
 
-function RoomChannel({ rooms, roomChannel }) {// members list
-	const { messages: messageState, update } = roomChannel;
-	const { messages = [] } = update || {};
-  const { mutate } = rooms
-  const sendMessage = useCallback(async (name, channel, message) => {
+function RoomChannel({ roomChannel }) {
+	const { channel } = roomChannel;
+	const { name: channelName } = channel || {};
+
+  // const { mutate } = rooms
+  const { data, mutate } = useSWR(
+    channelName && `/api/rooms/status?channel_name=${channelName}`, {
+    fallbackData: {},
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
+    refreshWhenHidden: true,
+    refreshWhenOffline: true,
+    shouldRetryOnError: true,
+    errorRetryInterval: 500,
+    errorRetryCount: 3,
+    dedupingInterval: 100,
+    focusThrottleInterval: 100,
+    loadingTimeout: 100,
+    refreshInterval: 100,
+  });
+
+  const sendMessage = async (name, channel, message) => {
     if (!message) return;
-    mutate()
-    const data = await sendClientMessage(name, channel, message)
-    mutate()
-  }, [mutate])
-  console.log('RoomChannel', messageState, messages.slice(-1)[0]?.message)
-	return (
+    const update = await sendClientMessage(name, channel, message)
+    mutate(data, { revalidate: true })
+  }
+  console.log('RoomChannel', data)
+	const { messages = [] } = data || {} as any;
+  
+  return (
 		<div className='vbox flex'>
 			<div className='hbox flex'>
         <div className='vbox flex'>
         </div>
         <div className='vbox sidebar shade'>
-          <UserList roomChannel={roomChannel} mutate={mutate} />
+          <UserList update={data} />
           <ChatMessageContainer messages={messages} sendMessage={sendMessage} />
         </div>
       </div>
@@ -87,4 +104,4 @@ function RoomChannel({ rooms, roomChannel }) {// members list
 	)
 }
 
-export default withRooms(withRouteParams(withRoomChannel(RoomChannel)))
+export default withRouteParams(withRoomChannel(RoomChannel))
