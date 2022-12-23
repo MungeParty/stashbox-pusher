@@ -36,8 +36,9 @@ export async function updateUserPresence(
 		// if this is the channel for the room the user is in, update
 		// presence data for the room and send an update event
 		if (channel_name == PusherChannel.room(presence.user_info.room)) {
-			updateRoomPresence(channel_name, update)
+			return updateRoomPresence(channel_name, update)
 		}
+    return {}
 }
 
 // take presence update from connection and update room data 

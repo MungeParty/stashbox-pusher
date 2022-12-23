@@ -21,7 +21,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // run channel authorization
   const authResponse = pusher.authorizeChannel(user_id, channel_name, presenceData)
   // update presence data
-  await updateUserPresence(channel_name, presenceData)
+  const update = await updateUserPresence(channel_name, presenceData)
+  const { room, players = [] } = (update ?? {}) as any
+  if (room) {
+    // update successful, revalidate cache
+    await Promise.all([
+      res.revalidate(`/rooms/${room}`),
+      ...players.map(player => res.revalidate(`/rooms/${room}/${player}`))
+    ])
+  }
   // return auth response
   return noCache(res).send(authResponse)
 }
