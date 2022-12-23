@@ -16,9 +16,9 @@ export default function MyApp({
       </Head>
       <SWRConfig
         value={{
-          revalidateOnFocus: false,
+          revalidateOnFocus: true,
           fetcher: (resource, init) =>
-          fetch(resource, init).then((res) => res.json())
+            fetch(resource, init).then((res) => res.json())
         }}
         >
         <RouteProvider>
