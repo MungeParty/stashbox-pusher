@@ -11,7 +11,8 @@ export default function MyApp({
   return (
     <div>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
+        {/* viewport to device screen - fixes issues on mobile */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
       <SWRConfig
         value={{

@@ -3,20 +3,30 @@ import { withRoomChannel } from '@/store/pusher'
 import ChatMessageContainer from './chat';
 
 async function sendClientMessage(name, channel, message) {
-  // convert params to url string
-  const urlParams = new URLSearchParams({
-    channel_name: channel,
-			name,
-			message
-  });
-  console.log('url params: ', urlParams.toString());
-  const resp = await fetch('/api/chat?' + urlParams.toString(), {
-		method: 'GET',
-		cache: 'no-cache',
-    next: { revalidate: 0 }
-	})
-  const data = await resp.json();
-  return data;
+  const chatResult = 
+    await fetch('/api/chat', {
+      method: 'PUT',
+      cache: 'no-cache',
+      next: { revalidate: 0 }, 
+      body: JSON.stringify({
+        channel_name: channel,
+          name,
+          message
+      })
+    })
+  const chatData = await chatResult.json();
+  console.log('chatData', chatData.messages);
+  const botResult = 
+    await fetch('/api/chat/bot', {
+      method: 'PUT',
+      cache: 'no-cache',
+      next: { revalidate: 0 }, 
+      body: JSON.stringify({
+        channel_name: channel
+      })
+    })
+  const botData = await botResult.json();
+  console.log('botData', botData.messages);
 }
 
 const PlayerList = ({ playerList }) => (<>
@@ -58,10 +68,13 @@ const UserList = ({ update }) => {
 
 function RoomChannel({ room, user, roomChannel }) {
 	const { update } = roomChannel;
-  const sendMessage = async (name, channel, message) => {
-    if (!message) return;
-    await sendClientMessage(name, channel, message)
-  }
+
+  const sendMessage = useCallback(
+    async (name, channel, message) => {
+      if (!message) return;
+      await sendClientMessage(name, channel, message)
+    }, [roomChannel?.update?.room])
+
 	const { messages = [] } = update || {} as any;
   return (
 		<div className='vbox flex'>

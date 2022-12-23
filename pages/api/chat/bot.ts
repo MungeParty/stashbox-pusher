@@ -1,10 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getChannelCache } from '@/lib/pusher'
 import { completeMessages } from '@/lib/openai'
-import configuration from '@/lib/openai/bot'
+import { handleChatMessage } from '@/lib/stashbox/messages'
+import personality from '@/lib/openai/bot'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const prompt = req.query.prompt
-  const messages = [{ name: 'User', message: prompt }]
-  const response = await completeMessages(messages, configuration)
-  res.status(200).json(response)
+  const { channel_name } = req.body as any
+  let roomData = await getChannelCache(channel_name);
+  const message = await completeMessages(roomData.messages, personality)
+  roomData = await handleChatMessage(roomData, {
+    name, 
+    message, 
+    time: Date.now(),
+  })
+  res.status(200).json(roomData)
 }

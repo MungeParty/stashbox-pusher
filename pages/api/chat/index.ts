@@ -1,17 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { handleChatMessage } from '@/lib/stashbox/messages'
+import { getChannelCache } from '@/lib/pusher'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { channel_name, message, name } = req.query as any
-  let filteredMessage = message?.trim() || '';
-  if (filteredMessage.length > 0) {
-    const result = await handleChatMessage(channel_name, {
-      name,
-      message: filteredMessage,
+  const { channel_name, message: input, name } = req.body as any
+  let message = input?.trim() || '';
+  let roomData = await getChannelCache(channel_name);
+  // handle message
+  if (message.length > 0) {
+    roomData = await handleChatMessage(roomData, {
+      name, 
+      message, 
       time: Date.now(),
     })
-    res.status(200).json(result)
-    return;
   }
-  res.status(200).json({})
+  res.status(200).json(roomData)
 }
