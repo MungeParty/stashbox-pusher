@@ -23,6 +23,8 @@ async function sendClientMessage(name, channel, message) {
     ...chatFetchConfig,
     body: JSON.stringify({ channel_name: channel })
   })
+  // await 1s timeout
+  await new Promise((resolve) => setTimeout(resolve, 1000)); 
   // query host
   // const hostResp = 
   await fetch('/api/chat/host', {
