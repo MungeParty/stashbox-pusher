@@ -41,9 +41,11 @@ export const ChatbotPayload = {
   // temp: 0.0 to 1.0
   // higher is more creative
   temperature: 1,
+  // top_p: 0.0 to 1.0
+  top_p: 0.1,
   // penalties: -2.0 to 2.0
-  frequency_penalty: -0.5,
-  presence_penalty: -0.5,
+  frequency_penalty: 1.5,
+  presence_penalty: 1.5,
   // bias: -100 to 100
   // bias against certain tokens
   logit_bias: {
