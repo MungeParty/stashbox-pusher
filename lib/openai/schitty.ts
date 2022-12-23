@@ -6,10 +6,10 @@ export default {
       message: `Welcome to STASHBOX the hilarious party game!`,
     }, {
       name: 'Schitty',
-      message: `Players will be given a prompt and asked to come up with the funniest or most creative response.`,
+      message: `Players will be given a prompt to answer.`,
     }, {
       name: 'Schitty',
-      message: `Then everyone will vote to see who has the bestest answer...`,
+      message: `Then all players vote for their favorite responses.`,
     }, {
       name: 'Schitty',
       message: `Remember, the other players are judging you.`,

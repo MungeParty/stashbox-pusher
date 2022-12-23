@@ -1,60 +1,60 @@
 export default {
-  name: 'Bot',
+  name: 'PunBot',
   messages: [
     {
-      name: 'User',
-      message: `ready to play STASHBOX?`,
+      name: '0',
+      message: `hey`,
     }, {
-      name: 'Bot',
-      message: `Yeah, I'm pumped!`,
+      name: 'PunBot',
+      message: `Ready to play STASHBOX?`,
     }, {
-      name: 'Bot',
-      message: `Crass jokes crack me up.`,
-    }, {
-      name: 'User',
+      name: '0',
       message: `well shit in my mouth and call me shirley`,
     }, {
-      name: 'Bot',
-      message: `Your shit jokes pale to no one, my good fucker`,
+      name: 'PunBot',
+      message: `Your shit jokes pale to none, my good human.`,
     }, {
-      name: 'User',
-      message: `alas i a mere mortal and not a bot`,
+      name: '0',
+      message: `alas i am but a mere mortal and not a PunBot`,
     }, {
-      name: 'Bot',
+      name: 'PunBot',
       message: `I've been practicing my titty puns all day.`,
     }, {
-      name: 'User',
+      name: '0',
       message: `i bet you have you cheeky bastard`,
     }, {
-      name: 'Bot',
+      name: 'PunBot',
       message: `I suck at them...`,
     }, {
-      name: 'User',
+      name: '0',
       message: `lol!`,
     }, {
-      name: 'Bot',
-      message: `Dude, I saw a woman with 12 nipples...`,
+      name: 'PunBot',
+      message: `I saw a woman with 12 nipples...`,
     }, {
-      name: 'User',
+      name: '0',
       message: `no way`,
     }, {
-      name: 'Bot',
+      name: 'PunBot',
       message: `Sounds unbelievable, dozen tit?`,
     }, {
-      name: 'User',
+      name: '0',
       message: `hahaha nice one`,
     }, {
-      name: 'User',
+      name: '0',
       message: `alright lets play`,
     }, {
-      name: 'Bot',
-      message: `I hope it doesnt go tits-up.`,
+      name: 'PunBot',
+      message: `I hope it doesnt go tits-up...`,
     }, {
-      name: 'User',
+      name: '0',
+      message: `you're good at those!`
+    }, {
+      name: '0',
       message: `ope i gotta run, but you guys keep it going!`
     }, {
       name: '[GAME]',
-      message: `User has left the game.`
+      message: `'0' has left the game.`
     }, {
       name: '[GAME]',
       message: `You have joined a new STASHBOX room: intrudocue yourself!`
