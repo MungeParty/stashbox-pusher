@@ -43,15 +43,15 @@ const ViewerList = ({ viewerList }) => (
   </div>
 )
 
-const UserList = ({ roomChannel }) => {
+const UserList = ({ roomChannel, mutate }) => {
   const { update } = roomChannel; 
-  const { connections, viewers = [], users, players = [] } = ( update ) ?? {} as any;
+  const { modified, connections, viewers = [], users, players = [] } = ( update ) ?? {} as any;
   const { playerList, viewerList } = useMemo(() => {
     return {
       playerList: players.map((player) => ({...users[player]})),
       viewerList: viewers.map((viewer) => ({...connections[viewer]}))
     }
-  }, [connections, viewers, users, players])
+  }, [mutate, modified, connections, viewers, users, players])
   return (
     <div className='user-list hilite'>
       <>
@@ -68,6 +68,7 @@ function RoomChannel({ rooms, roomChannel }) {// members list
   const { mutate } = rooms
   const sendMessage = useCallback(async (name, channel, message) => {
     if (!message) return;
+    mutate()
     const data = await sendClientMessage(name, channel, message)
     mutate()
   }, [mutate])
@@ -78,7 +79,7 @@ function RoomChannel({ rooms, roomChannel }) {// members list
         <div className='vbox flex'>
         </div>
         <div className='vbox sidebar shade'>
-          <UserList roomChannel={roomChannel} />
+          <UserList roomChannel={roomChannel} mutate={mutate} />
           <ChatMessageContainer messages={messages} sendMessage={sendMessage} />
         </div>
       </div>
