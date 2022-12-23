@@ -120,8 +120,8 @@ function useChannel(pusher: Pusher, channelName: string) {
         connection.bind('update', (data: any) => {
           setUpdate(data)
           // reduce update data to only the changed values
-          const previous = roomData()
-          // const roomState = roomData(data)
+          // const previous = roomData()
+          roomData(data)
           const myId = channel?.members?.me?.user_id ?? null
           const myCon = data?.connections[myId] ?? null
           if (myCon) {
@@ -227,8 +227,19 @@ export const withRouteParams = Component => props => {
 
 // with room values
 export const withRoomChannel = Component => props => {
-  const { roomChannel } = useContext(RoomContext)
-  return (<Component {...props} roomChannel={roomChannel} />)
+  const { roomChannel: {
+    channel,
+    members,
+    messages,
+    update
+  } } = useContext(RoomContext)
+  console.log('withRoomChannel', channel, members, messages, update)
+  return (<Component {...props} roomChannel={{
+    channel,
+    members,
+    messages,
+    update
+  }} />)
 }
 
 // with user channel values
