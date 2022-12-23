@@ -4,9 +4,10 @@ import useSWR from 'swr'
 export const StateContext = createContext(null)
 
 export default function StateProvider({ children }) {
-    const rooms = useSWR(`/api/rooms`, {
-        fallbackData: []
-    })
+    // const rooms = useSWR(`/api/rooms`, {
+    //     fallbackData: []
+    // })
+    const rooms = [];
     return (
         <StateContext.Provider value={rooms}>
             {children}

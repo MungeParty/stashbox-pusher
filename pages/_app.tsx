@@ -14,19 +14,11 @@ export default function MyApp({
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
       </Head>
-      <SWRConfig
-        value={{
-          revalidateOnFocus: true,
-          fetcher: (resource, init) =>
-            fetch(resource, init).then((res) => res.json())
-        }}
-        >
-        <RouteProvider>
-          <StateProvider>
-            <Component {...pageProps} />
-          </StateProvider>
-        </RouteProvider>
-      </SWRConfig>
+      <RouteProvider>
+        <StateProvider>
+          <Component {...pageProps} />
+        </StateProvider>
+      </RouteProvider>
     </div>
   )
 }
