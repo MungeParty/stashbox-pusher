@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import { withRouteParams, withRoomChannel } from '@/store/pusher'
+import { withRooms } from '@/store/index'
 import ChatMessageContainer from './chat';
 
-async function sendMessage(name, channel, message) {
+async function sendClientMessage(name, channel, message) {
   console.log('sendClientMessage', name, channel, message)
   const resp = await fetch('/api/chat', {
 		method: 'POST',
@@ -20,6 +21,7 @@ async function sendMessage(name, channel, message) {
 	})
   const data = await resp.json();
   console.log('sentClientMessage', name, channel, data)
+  return data;
 }
 
 const PlayerList = ({ playerList }) => (<>
@@ -60,10 +62,16 @@ const UserList = ({ roomChannel }) => {
   )
 }
 
-function RoomChannel({ roomChannel }) {// members list
-	const { update } = roomChannel;
+function RoomChannel({ rooms, roomChannel }) {// members list
+	const { messages: messageState, update } = roomChannel;
 	const { messages = [] } = update || {};
-  console.log('RoomChannel', messages.slice(-1)[0]?.message)
+  const { mutate } = rooms
+  const sendMessage = useCallback(async (name, channel, message) => {
+    if (!message) return;
+    const data = await sendClientMessage(name, channel, message)
+    mutate()
+  }, [mutate])
+  console.log('RoomChannel', messageState, messages.slice(-1)[0]?.message)
 	return (
 		<div className='vbox flex'>
 			<div className='hbox flex'>
@@ -78,4 +86,4 @@ function RoomChannel({ roomChannel }) {// members list
 	)
 }
 
-export default withRouteParams(withRoomChannel(RoomChannel))
+export default withRooms(withRouteParams(withRoomChannel(RoomChannel)))
