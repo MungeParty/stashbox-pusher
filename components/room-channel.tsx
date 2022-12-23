@@ -19,6 +19,10 @@ async function sendClientMessage(name, channel, message) {
       message
     })
   })
+  await fetch('/api/chat/bot', {
+    ...chatFetchConfig,
+    body: JSON.stringify({ channel_name: channel })
+  })
   // query host
   // const hostResp = 
   await fetch('/api/chat/host', {
@@ -29,10 +33,6 @@ async function sendClientMessage(name, channel, message) {
   // const hostRespJson = await hostResp.json();
   // if (hostRespJson) return;
   // query bot for a response
-  await fetch('/api/chat/bot', {
-    ...chatFetchConfig,
-    body: JSON.stringify({ channel_name: channel })
-  })
 }
 
 const PlayerList = ({ playerList }) => (<>
