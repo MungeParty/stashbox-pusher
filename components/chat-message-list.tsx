@@ -7,7 +7,9 @@ function sendClientMessage(name, channel, message) {
   fetch('/api/chat', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json',},
-		body: JSON.stringify({ 
+		cache: 'no-cache',
+    next: { revalidate: 0 },
+    body: JSON.stringify({ 
 			channel_name: channel,
 			name,
 			message
@@ -49,7 +51,7 @@ export default function ChatMessageList({ messages }) {
   useEffect(() => {
     const container = containerRef.current;
     container.scrollTop = container.scrollHeight;
-  }, [messages.length]);
+  }, [messages, containerRef]);
 
   // respond to window height changes
   useEffect(() => {

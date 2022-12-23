@@ -118,10 +118,8 @@ function useChannel(pusher: Pusher, channelName: string) {
         })
         // status events
         connection.bind('update', (data: any) => {
-          setUpdate(data)
           // reduce update data to only the changed values
           // const previous = roomData()
-          roomData(data)
           const myId = channel?.members?.me?.user_id ?? null
           const myCon = data?.connections[myId] ?? null
           if (myCon) {
@@ -133,6 +131,9 @@ function useChannel(pusher: Pusher, channelName: string) {
               }
             }
           }
+          // set update room data
+          console.log('set update: ', data, 'from: ', channelName)
+          setUpdate(roomData(data))
         })
         return connection
       })

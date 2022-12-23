@@ -43,7 +43,7 @@ const UserList = ({ roomChannel }) => {
 function RoomChannel({ roomChannel }) {// members list
 	const { update } = roomChannel;
 	const { messages = [] } = update || {};
-  console.log('RoomChannel', messages.slice(-1)[0]?.mesage)
+  console.log('RoomChannel', messages.slice(-1)[0]?.message)
 	return (
 		<div className='vbox flex'>
 			<div className='hbox flex'>
