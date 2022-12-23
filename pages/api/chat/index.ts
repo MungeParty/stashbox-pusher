@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { handleChatMessage } from '@/lib/stashbox/messages'
 import { getChannelCache } from '@/lib/pusher'
-import { noCache } from '@/lib/stashbox/headers'
+// import { noCache } from '@/lib/stashbox/headers'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { channel_name, message: input, name } = req.body;
@@ -16,5 +16,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       time: Date.now(),
     })
   }
-  noCache(res).status(200).json(roomData)
+  // noCache(res).status(200).json(roomData)
+  res.status(200).json(roomData)
 }

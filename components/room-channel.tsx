@@ -16,8 +16,7 @@ async function sendClientMessage(name, channel, message) {
         message
       })
     })
-  const chatData = await chatResult.json();
-  console.log('chatData', chatData.messages);
+  // const chatData = await chatResult.json();
   const botResult = 
     await fetch('/api/chat/bot', {
       method: 'POST',
@@ -29,7 +28,7 @@ async function sendClientMessage(name, channel, message) {
       })
     })
   const botData = await botResult.json();
-  console.log('botData', botData.messages);
+  // console.log('botData', botData.messages);
 }
 
 const PlayerList = ({ playerList }) => (<>
@@ -71,13 +70,10 @@ const UserList = ({ update }) => {
 
 function RoomChannel({ room, user, roomChannel }) {
 	const { update } = roomChannel;
-
-  const sendMessage = useCallback(
-    async (name, channel, message) => {
-      if (!message) return;
+  const sendMessage = 
+    async (name, channel, message) => { 
       await sendClientMessage(name, channel, message)
-    }, [roomChannel?.update?.room])
-
+    }
 	const { messages = [] } = update || {} as any;
   return (
 		<div className='vbox flex'>

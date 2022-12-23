@@ -95,7 +95,7 @@ function useChannel(pusher: Pusher, channelName: string) {
           connectionData(members.me.info)
         })
         connection.bind('pusher:subscription_error', (status: any) => {
-          console.log('subscription_error', status)
+          console.warn('subscription_error', status)
           setChannel(null)
         })
         // member events
@@ -110,7 +110,7 @@ function useChannel(pusher: Pusher, channelName: string) {
           setMessages((messages: any[]) => [...messages, data])
         })
         connection.bind('client-message', (data: any) => {
-          console.log('pusher evt: client-message')
+          // console.log('pusher evt: client-message')
           // mark client messages with clientMessage flag
           setMessages((messages: any[]) => [...messages, {
             ...data,
@@ -133,7 +133,7 @@ function useChannel(pusher: Pusher, channelName: string) {
             }
           }
           // set update room data
-          console.log('pusher evt: update')
+          // console.log('pusher evt: update')
           setUpdate(roomData(data))
         })
         return connection

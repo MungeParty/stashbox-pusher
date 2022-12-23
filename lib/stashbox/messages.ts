@@ -13,11 +13,8 @@ export async function handleChatMessage(roomData, message) {
     modified: Date.now(),
   };
   // update room data
-  await pusher.trigger(
-    PusherChannel.room(roomData.code), 
-    'message',
-    update
-  );
+  const room_channel = PusherChannel.room(roomData.code)
+  await pusher.trigger(room_channel, 'update', update);
   // return updated room roomData
   return update;
 }
