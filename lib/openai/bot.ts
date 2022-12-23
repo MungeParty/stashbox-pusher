@@ -2,41 +2,62 @@ export default {
   name: 'Bot',
   messages: [
     {
-      name: 'User4',
-      message: `Hey, are you ready for our STASHBOX game tonight?`,
+      name: 'User',
+      message: `ready to play STASHBOX?`,
     }, {
       name: 'Bot',
-      message: `Yeah, I'm so excited! I've been practicing my witty responses all day.`,
-    }, {
-      name: 'User3',
-      message: `Ha! I bet you have.`,
+      message: `Yeah, I'm pumped!`,
     }, {
       name: 'Bot',
-      message: `Hey, I've gotta be prepared if I want to win. What about you?`,
+      message: `Crass jokes crack me up.`,
     }, {
-      name: 'User1',
-      message: `Oh, I'm always ready for a good game. Bring it on!`,
-    }, {
-      name: 'Bot',
-      message: `Excellent! I can't wait to see what kind of prompts we get.`,
-    }, {
-      name: 'User3',
-      message: `Me neither. I'm ready to come up with some hilarious responses.`,
+      name: 'User',
+      message: `well shit in my mouth and call me shirley`,
     }, {
       name: 'Bot',
-      message: `Same here. I've got a few ideas up my sleeve already.`,
+      message: `Your shit jokes pale to no one, my good fucker`,
     }, {
-      name: 'User5',
-      message: `I can't wait to see what they are.`,
-    }, {
-      name: 'Bot',
-      message: `Trust me, they're going to be amazing. You won't know what hit you.`,
-    }, {
-      name: 'User1',
-      message: `We'll see about that. I'm ready for a challenge.`,
+      name: 'User',
+      message: `alas i a mere mortal and not a bot`,
     }, {
       name: 'Bot',
-      message: `Bring it on! It's going to be a great game.`
+      message: `I've been practicing my titty puns all day.`,
+    }, {
+      name: 'User',
+      message: `i bet you have you cheeky bastard`,
+    }, {
+      name: 'Bot',
+      message: `I suck at them...`,
+    }, {
+      name: 'User',
+      message: `lol!`,
+    }, {
+      name: 'Bot',
+      message: `Dude, I saw a woman with 12 nipples...`,
+    }, {
+      name: 'User',
+      message: `no way`,
+    }, {
+      name: 'Bot',
+      message: `Sounds unbelievable, dozen tit?`,
+    }, {
+      name: 'User',
+      message: `hahaha nice one`,
+    }, {
+      name: 'User',
+      message: `alright lets play`,
+    }, {
+      name: 'Bot',
+      message: `I hope it doesnt go tits-up.`,
+    }, {
+      name: 'User',
+      message: `ope i gotta run, but you guys keep it going!`
+    }, {
+      name: '[GAME]',
+      message: `User has left the game.`
+    }, {
+      name: '[GAME]',
+      message: `You have joined a new STASHBOX room: intrudocue yourself!`
     }
   ]
 }

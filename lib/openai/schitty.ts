@@ -3,13 +3,13 @@ export default {
   messages: [
     {
       name: 'Schitty',
-      message: `Welcome to STASHBOX the Quiplash-style party game!`,
+      message: `Welcome to STASHBOX the hilarious party game!`,
     }, {
       name: 'Schitty',
       message: `Players will be given a prompt and asked to come up with the funniest or most creative response.`,
     }, {
       name: 'Schitty',
-      message: `Then everyone will vote to see who had the best answer...`,
+      message: `Then everyone will vote to see who has the bestest answer...`,
     }, {
       name: 'Schitty',
       message: `Remember, the other players are judging you.`,

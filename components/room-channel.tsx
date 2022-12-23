@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { withRoomChannel } from '@/store/pusher'
+import { withRoomChannel, sendClientMessage } from '@/store/pusher'
 import ChatMessageContainer from './chat';
 
 const chatFetchConfig: any = {
@@ -19,11 +19,16 @@ async function sendClientMessage(name, channel, message) {
       message
     })
   })
-  await fetch('/api/chat/bot', {
+  // query host
+  const hostResp = await fetch('/api/chat/host', {
     ...chatFetchConfig,
     body: JSON.stringify({ channel_name: channel })
   })
-  await fetch('/api/chat/host', {
+  // only query bot if host STFU
+  const hostRespJson = await hostResp.json();
+  if (hostRespJson) return;
+  // query bot for a response
+  await fetch('/api/chat/bot', {
     ...chatFetchConfig,
     body: JSON.stringify({ channel_name: channel })
   })

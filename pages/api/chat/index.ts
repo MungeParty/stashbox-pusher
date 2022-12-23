@@ -6,7 +6,6 @@ import { getChannelCache } from '@/lib/pusher'
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { channel_name, message: input, name } = req.body;
   let message = input?.trim() || '';
-  console.log('message', message, channel_name, name, req.body)
   let roomData = await getChannelCache(channel_name);
   // handle message
   if (message.length > 0) {
