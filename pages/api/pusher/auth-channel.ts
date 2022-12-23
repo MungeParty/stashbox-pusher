@@ -26,6 +26,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (room) {
     // update successful, revalidate cache
     await Promise.all([
+      res.revalidate(`/api/auth-user`),
+      res.revalidate(`/api/auth-channel`),
       res.revalidate(`/rooms/${room}`),
       ...players.map(player => res.revalidate(`/rooms/${room}/${player}`))
     ])

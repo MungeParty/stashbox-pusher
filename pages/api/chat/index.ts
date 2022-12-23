@@ -14,5 +14,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     noCache(res).status(200).json(result)
     return;
   }
+  res.revalidate(`/api/chat`),
   noCache(res).status(200).json({})
 }
