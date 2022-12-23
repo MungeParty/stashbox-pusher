@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { withRoomChannel, sendClientMessage } from '@/store/pusher'
+import { withRoomChannel } from '@/store/pusher'
 import ChatMessageContainer from './chat';
 
 const chatFetchConfig: any = {
