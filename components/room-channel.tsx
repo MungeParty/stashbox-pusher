@@ -2,13 +2,17 @@ import { useMemo } from 'react'
 import { withRoomChannel } from '@/store/pusher'
 import ChatMessageContainer from './chat';
 
+const chatFetchConfig: any = {
+  method: 'POST',
+  cache: 'no-cache',
+  next: { revalidate: 0 }, 
+  headers: { 'Content-Type': 'application/json' }
+};
+
 async function sendClientMessage(name, channel, message) {
   console.log('sendClientMessage', name, channel, message);
   await fetch('/api/chat', {
-    method: 'POST',
-    cache: 'no-cache',
-    next: { revalidate: 0 }, 
-    headers: { 'Content-Type': 'application/json' },
+    ...chatFetchConfig,
     body: JSON.stringify({
       name,
       channel_name: channel,
@@ -16,22 +20,12 @@ async function sendClientMessage(name, channel, message) {
     })
   })
   await fetch('/api/chat/bot', {
-    method: 'POST',
-    cache: 'no-cache',
-    next: { revalidate: 0 }, 
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      channel_name: channel
-    })
+    ...chatFetchConfig,
+    body: JSON.stringify({ channel_name: channel })
   })
   await fetch('/api/chat/host', {
-    method: 'POST',
-    cache: 'no-cache',
-    next: { revalidate: 0 }, 
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      channel_name: channel
-    })
+    ...chatFetchConfig,
+    body: JSON.stringify({ channel_name: channel })
   })
 }
 
