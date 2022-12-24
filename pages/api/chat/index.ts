@@ -4,13 +4,13 @@ import { getChannelCache } from '@/lib/pusher'
 // import { noCache } from '@/lib/stashbox/headers'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { channel_name, message: input, name } = req.body;
+  const { channel_name, message: input, name, isViewer } = req.body;
   let message = input?.trim() || '';
   let roomData = await getChannelCache(channel_name);
   // handle message
   if (message.length > 0) {
     roomData = await handleChatMessage(roomData, {
-      name, 
+      name: isViewer ? '[PEANUT GALLERY]' : name, 
       message, 
       time: Date.now(),
     })

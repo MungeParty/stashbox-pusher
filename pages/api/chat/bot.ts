@@ -18,5 +18,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       time: Date.now()
     })
   }
-  noCache(res).status(200).json(roomData)
+  noCache(res).status(200).json({ message })
 }

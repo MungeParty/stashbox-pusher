@@ -9,32 +9,41 @@ const chatFetchConfig: any = {
   headers: { 'Content-Type': 'application/json' }
 };
 
-async function sendClientMessage(name, channel, message) {
+const botReplyDelay = 200;
+
+async function sendClientMessage(name, channel, message, isViewer) {
   console.log('sendClientMessage', name, channel, message);
   await fetch('/api/chat', {
     ...chatFetchConfig,
     body: JSON.stringify({
       name,
       channel_name: channel,
-      message
+      message,
+      isViewer
     })
   })
+  // await 1s timeout
+  await new Promise((resolve) => setTimeout(resolve, botReplyDelay));
+  // query host response
+  // host response X% chance of being sent
+  const sendHost = Math.random() > 0.2;
+  let hostResponse = sendHost 
+    && await fetch('/api/chat/host', {
+      ...chatFetchConfig,
+      body: JSON.stringify({ channel_name: channel })
+    })
+  const hostMessage = hostResponse && await hostResponse.json();
+  console.log(hostMessage);
+  // bot chain response X% chance of being sent
+  // if host didnt reply, always send bot
+  if (!hostMessage?.message && Math.random() > 0.3)
+    return;
+  // await 1s timeout
+  await new Promise((resolve) => setTimeout(resolve, botReplyDelay)); 
   await fetch('/api/chat/bot', {
     ...chatFetchConfig,
     body: JSON.stringify({ channel_name: channel })
   })
-  // await 1s timeout
-  await new Promise((resolve) => setTimeout(resolve, 1000)); 
-  // query host
-  // const hostResp = 
-  await fetch('/api/chat/host', {
-    ...chatFetchConfig,
-    body: JSON.stringify({ channel_name: channel })
-  })
-  // only query bot if host STFU
-  // const hostRespJson = await hostResp.json();
-  // if (hostRespJson) return;
-  // query bot for a response
 }
 
 const PlayerList = ({ playerList }) => (<>
@@ -77,16 +86,16 @@ const UserList = ({ update }) => {
 function RoomChannel({ room, user, roomChannel }) {
 	const { update } = roomChannel;
   const sendMessage = 
-    async (name, channel, message) => { 
-      await sendClientMessage(name, channel, message)
+    async (name, channel, message, isViewer) => { 
+      await sendClientMessage(name, channel, message, isViewer)
     }
 	const { messages = [] } = update || {} as any;
   return (
 		<div className='vbox flex'>
 			<div className='hbox flex'>
-        <div className='vbox flex'>
-        </div>
-        <div className='vbox sidebar shade'>
+        {/* <div className='vbox flex'>
+        </div> */}
+        <div className='vbox flex sidebar shade'>
           <UserList update={update} />
           <ChatMessageContainer room={room} user={user} messages={messages} sendMessage={sendMessage} />
         </div>

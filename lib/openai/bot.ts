@@ -11,8 +11,14 @@ export default {
       name: 'Player',
       message: `well shit in my mouth and call me shirley`,
     }, {
+      name: 'Player',
+      message: `i like the fill in the blank ones`,
+    }, {
       name: 'PunBot',
       message: `Your shit jokes pale to none, my good human.`,
+    }, {
+      name: 'PunBot',
+      message: `Me too, the blanks are better than the questions.`,
     }, {
       name: 'Player',
       message: `alas i am but a mere mortal and not a PunBot`,
@@ -54,7 +60,7 @@ export default {
       message: `ope i gotta run, but you guys keep it going!`
     }, {
       name: '[GAME]',
-      message: `'Player' has left the game.`
+      message: `'Player' left the game.`
     }, {
       name: '[GAME]',
       message: `You have joined a new STASHBOX room: intrudocue yourself!`

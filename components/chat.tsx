@@ -8,14 +8,14 @@ export default function ChatMessageView({ room, user, messages, sendMessage }) {
 	const messageRef = useRef(null);
 	// get room channel from connection
 	// message click handler
+  const isViewer = !user;
 	const messageClick = useCallback(() => {
     const message = messageRef.current.value;
     messageRef.current.value = '';
     if (message.legth == 0) return;
-    // const { user, type, room } = connectionData();
-    const name = user ?? `[VIEWER]`;
+    const name = user ?? ``;
     const channel = PusherChannel.room(room);
-    sendMessage(name, channel, message);
+    sendMessage(name, channel, message, isViewer);
   },	[messageRef, sendMessage])
   
   // handle enter press with click handler

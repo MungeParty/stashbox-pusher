@@ -56,6 +56,7 @@ export const ChatbotPayload = {
 
 // complete a chat prompt
 export async function completeChat(prompt) {
+  console.log('completeChat', prompt)
   const response = await openAI.createCompletion({
     ...ChatbotPayload,  
     prompt: prompt,
