@@ -2,11 +2,17 @@ export default {
   name: 'Schitty',
   messages: [
     {
+      name: '[GAME]',
+      message: `'Player' joined the game.`,
+    }, {
       name: 'Schitty',
-      message: `Welcome to STASHBOX the hilarious party game!`,
+      message: `Welcome to STASHBOX the hilarious party game, I'm your host!`,
     }, {
       name: 'Schitty',
       message: `Players will be given a prompt to answer.`,
+    }, {
+      name: 'Schitty',
+      message: `Prompts are either fill-in-the-blank or silly questions.`,
     }, {
       name: 'Schitty',
       message: `Then all players vote for their favorite responses.`,

@@ -40,7 +40,7 @@ export const ChatbotPayload = {
   max_tokens: 100,
   // temp: 0.0 to 1.0
   // higher is more creative
-  temperature: 1,
+  temperature: 0.7,
   // top_p: 0.0 to 1.0
   // top_p: 0.1,
   // penalties: -2.0 to 2.0
