@@ -26,12 +26,9 @@ const prompts = [
   `Gimmme that _! That's not your _!`,
   `If you _ you _. `,
   `East coast girls are _.`,
-  
-
   `Surf's _!`,
   `Please _ my _.`,
   `All _ and no _ makes _ a _ _.`,
-
   `And I would know! I'm _ of _.`,
   `There is no _ - only _!`,
   `_ lobster. Rock the _`,
@@ -57,10 +54,7 @@ const prompts = [
   `You know, you'd catch more _ with _.`,
   `It's fine. It's _, but it's fine.`,
   `If it's _ you're lookin' for, Andy's not you're _.`,
-  
   `_, _, _.`,
-  
-  
   `We always _ what we can't _.`,
   `Keep _ and carry _.`,
   `Like a good _, _ is there!`,
@@ -112,6 +106,7 @@ async function sendBotMessage(room, message) {
     ...chatFetchConfig,
     body: JSON.stringify({ room })
   })
+}
 
 async function sendClientMessage(user, room, message, isViewer) {
   // console.log('sendClientMessage', user, room, message);
@@ -231,6 +226,11 @@ function RoomChannel({ room, user, roomChannel }) {
           </div>
         </div>
         <div className='vbox flex sidebar shade'>
+          <div className='hbox'>
+            <button className='flex shade'onClick={() => {
+                sendBotMessage(room, '')}}
+            >BOT BANTER</button>
+          </div>
           <UserList update={update} />
           <ChatMessageContainer
             room={room}
@@ -242,6 +242,8 @@ function RoomChannel({ room, user, roomChannel }) {
       </div>
 		</div>
 	)
+
 }
 
-export default withRoomChannel(RoomChannel)
+
+export default withRoomChannel(RoomChannel) 
