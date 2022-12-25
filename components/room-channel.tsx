@@ -40,8 +40,6 @@ async function sendClientMessage(user, room, message, isViewer) {
       isViewer
     })
   })
-  // chatbots disabled temporarily
-  return;
   // wait bot delay
   await new Promise(resolve => setTimeout(resolve, botReplyDelay));
   // query host response
