@@ -13,6 +13,8 @@ const chatFetchConfig: any = {
 // bot reply delay
 const botReplyDelay = 200;
 const prompts = [
+  `Put the lime in _, and _ it all up!`,
+  `Legends say, they're wearing _ to this day...`,
   `Hold onto your _.`,
   `It's _ it's _! See? Noboty cares.`,
   `Get _ed, peasant.`,
