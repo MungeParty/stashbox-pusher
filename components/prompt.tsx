@@ -92,14 +92,12 @@ function QuizPrompt({ promptText, onComplete }) {
         const newInputValues = [...inputValues];
         newInputValues[i] = newValue;
         setInputValues(newInputValues);
-        if (newValue.length < 1)
-          return;
         if (newInputValues.every(value => value)) {
           inputRefs.current[i].blur();
           onComplete && onComplete(newInputValues);
         } else {
           // seek next empty input value, wrapping around
-          for (let j = 0; j < newInputValues.length; j++) {
+          for (let j = 1; j < newInputValues.length; j++) {
             const modIndex = (i + j) % newInputValues.length;
             if (!newInputValues[modIndex]) {
               inputRefs.current[modIndex].focus();
