@@ -13,6 +13,11 @@ const chatFetchConfig: any = {
 // bot reply delay
 const botReplyDelay = 200;
 const prompts = [
+  `Hold onto your _.`,
+  `It's _ it's _! See? Noboty cares.`,
+  `Get _ed, peasant.`,
+  `_er beware`,
+  `I'm _ and don't you forget it.`,
   `I got 99 _ and a _ ain't _`,
   `You _ all the _ you don't _.`,
   `_? Damn near _!`,
@@ -81,6 +86,10 @@ async function sendClientMessage(user, room, message, isViewer) {
       isViewer
     })
   })
+
+  // disable chatbots for now
+  return false;
+
   // wait bot delay
   await new Promise(resolve => setTimeout(resolve, botReplyDelay));
   // query host response
