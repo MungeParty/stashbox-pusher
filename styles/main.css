@@ -77,7 +77,7 @@ html, body, .viewport {
 
 .sidebar {
   font-size: 0.8em;
-  width: 30%;
+  /* width: 30%; */
 }
 
 .user-list {

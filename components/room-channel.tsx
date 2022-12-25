@@ -127,7 +127,10 @@ function RoomChannel({ room, user, roomChannel }) {
 			<div className='hbox flex'>
         <div className='vbox flex relative'>
           <div className='vbox absolute all-0 overflow-auto'>
-            <div>Test Prompts</div>
+            <div className='header shade'>
+              <div className='player header'>Test Prompts</div>
+              <div className='viewers'>TAP or CLICK any field in a prompt below and start typing, then press the SUBMIT/NEXT button on your mobile keybord (ENTER key on desktop) to submit your solution to chat. <br /><br />If there are more empty fields in that prompt, submitting a field will automatically cycle you to the next empty field until they're all filled.</div>
+            </div>
             {prompts.map(prompt => (
               <QuizPrompt 
                 key={prompt}

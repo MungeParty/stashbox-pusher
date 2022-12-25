@@ -1,7 +1,7 @@
 import pusher, { getChannelCache } from '../pusher';
 import { PusherChannel } from '@/store/constants';
 
-const messageHistory = 50;
+const messageHistory = 40;
 
 export async function handleChatMessage(room, message) {
   // refetch room data
