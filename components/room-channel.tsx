@@ -73,23 +73,11 @@ const prompts = [
   `The best way to impress a first date is to _ their _ with your _ skills.`,
   `I can't believe I got fired from my job as a _ for _ in front of the boss.`,
   `I never thought I'd find love at a _, but then when I saw _ I knew it was meant to be.`,
-]
+];
 
-async function sendClientMessage(user, room, message, isViewer) {
-  // console.log('sendClientMessage', user, room, message);
-  await fetch('/api/chat', {
-    ...chatFetchConfig,
-    body: JSON.stringify({
-      user,
-      room,
-      message,
-      isViewer
-    })
-  })
 
-  // disable chatbots for now
-  return false;
 
+async function sendBotMessage(room, message) {
   // wait bot delay
   await new Promise(resolve => setTimeout(resolve, botReplyDelay));
   // query host response
@@ -124,6 +112,56 @@ async function sendClientMessage(user, room, message, isViewer) {
     ...chatFetchConfig,
     body: JSON.stringify({ room })
   })
+
+async function sendClientMessage(user, room, message, isViewer) {
+  // console.log('sendClientMessage', user, room, message);
+  await fetch('/api/chat', {
+    ...chatFetchConfig,
+    body: JSON.stringify({
+      user,
+      room,
+      message,
+      isViewer
+    })
+  })
+
+  // // disable chatbots for now
+  // return false;
+
+  // // wait bot delay
+  // await new Promise(resolve => setTimeout(resolve, botReplyDelay));
+  // // query host response
+  // // host response X% chance of being sent
+  // const sendHost = true //Math.random() > 0.2;
+  // let hostResponse = sendHost 
+  //   && await fetch('/api/chat/host', {
+  //     ...chatFetchConfig,
+  //     body: JSON.stringify({ room })
+  //   })
+  // // get host message
+  // const hostMessage = hostResponse && await hostResponse.json();
+  // // default reply chance 30%
+  // let chance = 0.8;
+  // // if host message is empty, reply 100%
+  // const reply: string = hostMessage?.message ?? '';
+  // if (reply.length == 0 
+  //   || reply.endsWith('!')
+  //   || reply.endsWith('?')
+  //   || reply.includes('_')
+  //   || reply.includes('vote')
+  //   || reply.includes('voting')
+  //   || reply.includes(`PunBot`)) {
+  //   chance = 1.0;
+  // }
+  // // roll for bot reply
+  // if (Math.random() > chance) return
+  // // wait bot delay
+  // await new Promise(resolve => setTimeout(resolve, botReplyDelay));
+  // // send bot reply
+  // await fetch('/api/chat/bot', {
+  //   ...chatFetchConfig,
+  //   body: JSON.stringify({ room })
+  // })
 }
 
 const PlayerList = ({ playerList }) => (<>
