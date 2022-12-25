@@ -67,7 +67,8 @@ html, body, .viewport {
 
 .header {
   font-weight: bold;
-  padding: 16px
+  padding: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.15);
 }
 
 .content {
@@ -101,7 +102,7 @@ html, body, .viewport {
 
 .viewers {
   font-size: 0.8em;
-  border-bottom: 1px solid rgba(0,0,0,.25);
+  border-bottom: 1px solid rgba(0,0,0,.15);
 }
 
 .chat-message {
@@ -114,18 +115,51 @@ html, body, .viewport {
   margin: 0 2px 0 0;
 }
 
-.input {
+.prompt-container {
+  padding: 4px;
+  border-right: 1px solid rgba(0,0,0,.15);
+}
+
+.prompt {
+  font-weight: normal;
+  margin: 2px 8px 2px 8px;
+}
+
+.prompt-input {
+  font-weight: normal;
+  margin: 2px 8px 2px 8px;
+}
+
+.blank {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.superscript {
+  font-weight: normal;
+  position: absolute;
+  color: rgba(0,0,0,0.25);
+}
+
+input {
+  text-transform: none;
+  text-align: left;
   min-width: 0px;
   min-height: 12px;
   border-radius: 0;
-  border: 0 1px 0 0;
+  outline: none;
+  border: 1px solid #ddd;
+}
+
+input:focus, 
+textarea:focus, 
+select:focus {
+  outline: none;
+  border: 1px solid #444;
+  background-color: #fff;
 }
 
 p {
   margin: 0;
   padding: 0;
-}
-
-input:focus, textarea:focus, select:focus{
-  outline: none;
 }

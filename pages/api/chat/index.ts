@@ -1,20 +1,22 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { handleChatMessage } from '@/lib/stashbox/messages'
 import { getChannelCache } from '@/lib/pusher'
-// import { noCache } from '@/lib/stashbox/headers'
+import { PusherChannel } from '@/store/constants'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { channel_name, message: input, name, isViewer } = req.body;
+  const { room, message: input, name, isViewer } = req.body;
   let message = input?.trim() || '';
+  const channel_name = PusherChannel.room(room)
   let roomData = await getChannelCache(channel_name);
   // handle message
   if (message.length > 0) {
-    roomData = await handleChatMessage(roomData, {
-      name: isViewer ? '[PEANUT GALLERY]' : name, 
-      message, 
-      time: Date.now(),
-    })
+    roomData = await handleChatMessage(
+      roomData.code,
+      {
+        name: isViewer ? '[VIEWER]' : name, 
+        message, 
+        time: Date.now(),
+      })
   }
-  // noCache(res).status(200).json(roomData)
   res.status(200).json(roomData)
 }

@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { withRoomChannel } from '@/store/pusher'
 import ChatMessageContainer from './chat';
+import QuizPrompt from './prompt';
 
 const chatFetchConfig: any = {
   method: 'POST',
@@ -9,40 +10,69 @@ const chatFetchConfig: any = {
   headers: { 'Content-Type': 'application/json' }
 };
 
+// bot reply delay
 const botReplyDelay = 200;
+const prompts = [
+  `You know, you'd catch more _ with _.`,
+  `I find the most _ part of the _ is the _.`,
+  `We always _ what we can't _.`,
+  `Keep _ and carry _.`,
+  `Like a good _, _ is there!`,
+  `Fifteen _ could save fifteen _ or more on _.`,
+  `Silly _, _ are for _!`,
+  `The _ part of waking up, is _ in your _.`,
+  `I'll never go back to _ after what happened. I found a _ in my _!`,
+  `We all love to _ sometimes, don't we?`,
+  `The best way to _ is to just _ it till it's _.`,
+  `The best way to impress a first date is to _ their _ with your _ skills.`,
+  `I can't believe I got fired from my job as a _ for _ in front of the boss.`,
+  `I never thought I'd find love at a _, but then when I saw _ I knew it was meant to be.`,
+]
 
-async function sendClientMessage(name, channel, message, isViewer) {
-  console.log('sendClientMessage', name, channel, message);
+async function sendClientMessage(name, room, message, isViewer) {
+  // console.log('sendClientMessage', name, room, message);
   await fetch('/api/chat', {
     ...chatFetchConfig,
     body: JSON.stringify({
       name,
-      channel_name: channel,
+      room,
       message,
       isViewer
     })
   })
-  // await 1s timeout
-  await new Promise((resolve) => setTimeout(resolve, botReplyDelay));
+  // wait bot delay
+  await new Promise(resolve => setTimeout(resolve, botReplyDelay));
   // query host response
   // host response X% chance of being sent
-  const sendHost = Math.random() > 0.2;
+  const sendHost = true //Math.random() > 0.2;
   let hostResponse = sendHost 
     && await fetch('/api/chat/host', {
       ...chatFetchConfig,
-      body: JSON.stringify({ channel_name: channel })
+      body: JSON.stringify({ room })
     })
+  // get host message
   const hostMessage = hostResponse && await hostResponse.json();
-  console.log(hostMessage);
-  // bot chain response X% chance of being sent
-  // if host didnt reply, always send bot
-  if (!hostMessage?.message && Math.random() > 0.3)
-    return;
-  // await 1s timeout
-  await new Promise((resolve) => setTimeout(resolve, botReplyDelay)); 
+  // default reply chance 30%
+  let chance = 0.8;
+  // if host message is empty, reply 100%
+  const reply: string = hostMessage?.message ?? '';
+  if (reply.length == 0 
+    || reply.endsWith('!')
+    || reply.endsWith('?')
+    || reply.includes('_')
+    || reply.includes('vote')
+    || reply.includes('voting')
+    || reply.includes("PunBot")) {
+    chance = 1.0;
+  }
+  // roll for bot reply
+  if (Math.random() > chance) return
+  // wait bot delay
+  await new Promise(resolve => setTimeout(resolve, botReplyDelay));
+  // send bot reply
   await fetch('/api/chat/bot', {
     ...chatFetchConfig,
-    body: JSON.stringify({ channel_name: channel })
+    body: JSON.stringify({ room })
   })
 }
 
@@ -86,15 +116,26 @@ const UserList = ({ update }) => {
 function RoomChannel({ room, user, roomChannel }) {
 	const { update } = roomChannel;
   const sendMessage = 
-    async (name, channel, message, isViewer) => { 
-      await sendClientMessage(name, channel, message, isViewer)
+    async (name, room, message, isViewer) => { 
+      await sendClientMessage(name, room, message, isViewer)
     }
 	const { messages = [] } = update || {} as any;
   return (
 		<div className='vbox flex'>
 			<div className='hbox flex'>
-        {/* <div className='vbox flex'>
-        </div> */}
+        <div className='vbox flex relative'>
+          <div className='vbox absolute all-0 overflow-auto'>
+            {prompts.map(prompt => (
+              <QuizPrompt 
+                key={prompt}
+                promptText={prompt}
+                onComplete={response => {
+                  console.log('onComplete', response);
+                }}
+              />
+            ))}
+          </div>
+        </div>
         <div className='vbox flex sidebar shade'>
           <UserList update={update} />
           <ChatMessageContainer room={room} user={user} messages={messages} sendMessage={sendMessage} />

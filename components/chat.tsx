@@ -1,5 +1,4 @@
 import { useRef, useCallback, useEffect } from 'react';
-import { PusherChannel } from '@/store/constants'
 
 export default function ChatMessageView({ room, user, messages, sendMessage }) {
   // container ref
@@ -14,8 +13,7 @@ export default function ChatMessageView({ room, user, messages, sendMessage }) {
     messageRef.current.value = '';
     if (message.legth == 0) return;
     const name = user ?? ``;
-    const channel = PusherChannel.room(room);
-    sendMessage(name, channel, message, isViewer);
+    sendMessage(name, room, message, isViewer);
   },	[messageRef, sendMessage])
   
   // handle enter press with click handler

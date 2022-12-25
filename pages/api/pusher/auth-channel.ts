@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSocketType, updateUserPresence } from '@/lib/stashbox/presence'
 import pusher from '@/lib/pusher'
-import { noCache } from '@/lib/stashbox/headers'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const { socket_id: user_id, channel_name, ...user_info } = req.body;
@@ -33,5 +32,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ])
   }
   // return auth response
-  return noCache(res).send(authResponse)
+  res.send(authResponse)
 }

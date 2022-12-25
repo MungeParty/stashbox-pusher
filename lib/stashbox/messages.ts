@@ -3,9 +3,9 @@ import { PusherChannel } from '@/store/constants';
 
 const messageHistory = 50;
 
-export async function handleChatMessage(roomData, message) {
+export async function handleChatMessage(room, message) {
   // refetch room data
-  const room_channel = PusherChannel.room(roomData.code)
+  const room_channel = PusherChannel.room(room)
   let cache = await getChannelCache(room_channel);
   // retain the most recent X messaegs
   const retained = (cache?.messages ?? []).slice(-(messageHistory));
