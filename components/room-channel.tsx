@@ -13,8 +13,35 @@ const chatFetchConfig: any = {
 // bot reply delay
 const botReplyDelay = 200;
 const prompts = [
+  `If it's _ you're lookin' for, Amy's not you're _.`,
+  `_, _, _ _.`,
+  `Surf's _!`,
+  `Please _ my _.`,
+  `All _ and no _ makes _ a _ _.`,
+  
+  `And I would know! I'm _ of _.`,
+  `_ or get off the _`,
+  `There is no _ - only _!`,
+  `_ lobster. Rock the _`,
+  `I climbed to the top of the _ and saw _`,
+  `_?! That's no _!`,
+  `You _ all the _ you don't _.`,
+  `Hang _.`,
+  `East coast girls are _.`,
+  `_-adena! _ City!`,
+  `You _.. and then I'll _.`,
+  `If we _ , they win.`,
+  `If you _ it they will _...`,
+  `I got 00 _ and a _ ain't _`,
+  `What's _ got to do with it?`,
+  `_ your _ ya filthty animal.`,
+  `Ooops I _ again..`,
+  `Cah't you see I'm _ here?!`,
+  `I'm glad you _. Follow me into the _...`,
+  `When life gives you _, make _.`, 
+
   `You know, you'd catch more _ with _.`,
-  `I find the most _ part of the _ is the _.`,
+  `It's fine. It's _, but it's fine.`,
   `We always _ what we can't _.`,
   `Keep _ and carry _.`,
   `Like a good _, _ is there!`,
@@ -62,7 +89,7 @@ async function sendClientMessage(user, room, message, isViewer) {
     || reply.includes('_')
     || reply.includes('vote')
     || reply.includes('voting')
-    || reply.includes("PunBot")) {
+    || reply.includes(`PunBot`)) {
     chance = 1.0;
   }
   // roll for bot reply
