@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect, useState } from 'react';
 
 export default function ChatMessageView({ room, user, messages, sendMessage }) {
   // container ref
@@ -39,11 +39,29 @@ export default function ChatMessageView({ room, user, messages, sendMessage }) {
       window.removeEventListener('resize', scrollToBottom);
     };
   }, [scrollToBottom]);
-
+  const [isKbOpen, setIsKbOpen] = useState(false);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerHeight < window.innerWidth) {
+        setIsKbOpen(true);
+      } else {
+        setIsKbOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <div className='vbox flex chat-area'>
       <div className='vbox flex relative'>
-        <div className='vbox absolute all-0 overflow-auto justify-end' ref={containerRef}>
+        <div 
+          className={`vbox absolute all-0 overflow-auto${
+            isKbOpen ? ' justify-end' : ''}`}
+          ref={containerRef}
+        >
           {messages.map(({time, name, message}) => (
             <p className='chat-message' key={`${time}:${name}`}>
               <span key={name} className='chat-name'>{name}:</span>

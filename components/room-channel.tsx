@@ -127,6 +127,7 @@ function RoomChannel({ room, user, roomChannel }) {
 			<div className='hbox flex'>
         <div className='vbox flex relative'>
           <div className='vbox absolute all-0 overflow-auto'>
+            <div>Test Prompts</div>
             {prompts.map(prompt => (
               <QuizPrompt 
                 key={prompt}
