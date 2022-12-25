@@ -18,7 +18,7 @@ const prompts = [
   `We always _ what we can't _.`,
   `Keep _ and carry _.`,
   `Like a good _, _ is there!`,
-  `Fifteen _ could save fifteen _ or more on _.`,
+  `Fifteen _ could save you _ or more on _.`,
   `Silly _, _ are for _!`,
   `The _ part of waking up, is _ in your _.`,
   `I'll never go back to _ after what happened. I found a _ in my _!`,

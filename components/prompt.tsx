@@ -99,7 +99,9 @@ function QuizPrompt({ promptText, onComplete }) {
             parts: [...promptParts],
             inputs: [...newInputValues],
             filled: promptParts.reduce((acc, part, i) => 
-              `${acc}${part}${(newInputValues[i] || '')}`, '')
+              `${acc}${part}${(newInputValues[i] 
+                ? `<${newInputValues[i]}>`
+                : '')}`, '')
           });
         } else {
           // seek next empty input value, wrapping around

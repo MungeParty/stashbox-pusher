@@ -45,9 +45,24 @@ export default function ChatMessageView({ room, user, messages, sendMessage }) {
       <div className='vbox flex relative'>
         <div className='vbox absolute all-0 overflow-auto justify-end' ref={containerRef}>
           {messages.map(({time, name, message}) => (
-            <div className='chat-message' key={`${time}:${name}`}>
-              <><span className='chat-name'>{name}:</span>{message}</>
-            </div>
+            <p className='chat-message' key={`${time}:${name}`}>
+              <span key={name} className='chat-name'>{name}:</span>
+              {
+                message.split('<').reduce(
+                  (acc, part, ) => {
+                    if (part.includes('>')) {
+                      const [answer, nextPart] = part.split('>');
+                      return [
+                        ...acc, 
+                        <span key={`${name}-${acc.length}`} className='blank'>{answer}</span>,
+                        nextPart
+                      ]
+                    }
+                    return [...acc, part]
+                  },[]
+                )
+              }
+            </p>
           ))}
         </div>
       </div>
