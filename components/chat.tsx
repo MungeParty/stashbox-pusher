@@ -12,8 +12,7 @@ export default function ChatMessageView({ room, user, messages, sendMessage }) {
     const message = messageRef.current.value;
     messageRef.current.value = '';
     if (message.legth == 0) return;
-    const name = user ?? ``;
-    sendMessage(name, room, message, isViewer);
+    sendMessage(user, room, message, isViewer);
   },	[messageRef, sendMessage])
   
   // handle enter press with click handler
@@ -44,7 +43,7 @@ export default function ChatMessageView({ room, user, messages, sendMessage }) {
   return (
     <div className='vbox flex chat-area'>
       <div className='vbox flex relative'>
-        <div className='vbox absolute all-0 overflow-auto' ref={containerRef}>
+        <div className='vbox absolute all-0 overflow-auto justify-end' ref={containerRef}>
           {messages.map(({time, name, message}) => (
             <div className='chat-message' key={`${time}:${name}`}>
               <><span className='chat-name'>{name}:</span>{message}</>

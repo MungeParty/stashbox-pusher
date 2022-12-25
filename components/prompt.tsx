@@ -94,7 +94,13 @@ function QuizPrompt({ promptText, onComplete }) {
         setInputValues(newInputValues);
         if (newInputValues.every(value => value)) {
           inputRefs.current[i].blur();
-          onComplete && onComplete(newInputValues);
+          onComplete && onComplete({
+            prompt: promptText,
+            parts: [...promptParts],
+            inputs: [...newInputValues],
+            filled: promptParts.reduce((acc, part, i) => 
+              `${acc}${part}${(newInputValues[i] || '')}`, '')
+          });
         } else {
           // seek next empty input value, wrapping around
           for (let j = 1; j < newInputValues.length; j++) {

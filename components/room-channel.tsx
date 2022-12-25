@@ -29,17 +29,19 @@ const prompts = [
   `I never thought I'd find love at a _, but then when I saw _ I knew it was meant to be.`,
 ]
 
-async function sendClientMessage(name, room, message, isViewer) {
-  // console.log('sendClientMessage', name, room, message);
+async function sendClientMessage(user, room, message, isViewer) {
+  // console.log('sendClientMessage', user, room, message);
   await fetch('/api/chat', {
     ...chatFetchConfig,
     body: JSON.stringify({
-      name,
+      user,
       room,
       message,
       isViewer
     })
   })
+  // chatbots disabled temporarily
+  return;
   // wait bot delay
   await new Promise(resolve => setTimeout(resolve, botReplyDelay));
   // query host response
@@ -116,8 +118,8 @@ const UserList = ({ update }) => {
 function RoomChannel({ room, user, roomChannel }) {
 	const { update } = roomChannel;
   const sendMessage = 
-    async (name, room, message, isViewer) => { 
-      await sendClientMessage(name, room, message, isViewer)
+    async (user, room, message, isViewer) => { 
+      await sendClientMessage(user, room, message, isViewer)
     }
 	const { messages = [] } = update || {} as any;
   return (
@@ -130,7 +132,9 @@ function RoomChannel({ room, user, roomChannel }) {
                 key={prompt}
                 promptText={prompt}
                 onComplete={response => {
-                  console.log('onComplete', response);
+                  if (response?.filled?.length) {
+                    sendMessage(user, room, response.filled, !user);
+                  }
                 }}
               />
             ))}
@@ -138,7 +142,12 @@ function RoomChannel({ room, user, roomChannel }) {
         </div>
         <div className='vbox flex sidebar shade'>
           <UserList update={update} />
-          <ChatMessageContainer room={room} user={user} messages={messages} sendMessage={sendMessage} />
+          <ChatMessageContainer
+            room={room}
+            user={user}
+            messages={messages}
+            sendMessage={sendMessage}
+          />
         </div>
       </div>
 		</div>

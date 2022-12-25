@@ -4,7 +4,7 @@ import { getChannelCache } from '@/lib/pusher'
 import { PusherChannel } from '@/store/constants'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { room, message: input, name, isViewer } = req.body;
+  const { room, message: input, user, isViewer } = req.body;
   let message = input?.trim() || '';
   const channel_name = PusherChannel.room(room)
   let roomData = await getChannelCache(channel_name);
@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     roomData = await handleChatMessage(
       roomData.code,
       {
-        name: isViewer ? '[VIEWER]' : name, 
+        name: (!user || isViewer) ? '[VIEWER]' : user, 
         message, 
         time: Date.now(),
       })
