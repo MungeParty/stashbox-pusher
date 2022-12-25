@@ -41,7 +41,11 @@ const prompts = [
   `Cah't you see I'm _ here?!`,
   `I'm glad you _. Follow me into the _...`,
   `When life gives you _, make _.`, 
-
+  `There... has been anohter _.`,
+  `_-scratch fever!`,
+  `Merry _-mas!`,
+  `It is a good day to _.`,
+  `If I can't _ then what has this all been about?`,
   `You know, you'd catch more _ with _.`,
   `It's fine. It's _, but it's fine.`,
   `We always _ what we can't _.`,
