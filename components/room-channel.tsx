@@ -13,8 +13,10 @@ const chatFetchConfig: any = {
 // bot reply delay
 const botReplyDelay = 200;
 const prompts = [
-  `If it's _ you're lookin' for, Amy's not you're _.`,
-  `_, _, _ _.`,
+  `Gimmme that _! That's not your _!`,
+  `If it's _ you're lookin' for, Andy's not you're _.`,
+  `_, _, _.`,
+
   `Surf's _!`,
   `Please _ my _.`,
   `All _ and no _ makes _ a _ _.`,
